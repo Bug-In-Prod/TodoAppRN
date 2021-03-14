@@ -1,8 +1,10 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import {
   Text,
   View,
-  Button
+  Image,
+  TextInput,
+  TouchableOpacity
 } from 'react-native';
 import { connect } from 'react-redux';
 import { setTodoName } from '~/store/main/actions';
@@ -10,15 +12,45 @@ import { setTodoName } from '~/store/main/actions';
 import styles from './styles';
 
 const Main = ({navigation}) => {
+  const [task, setTask] = useState('');
 
   const handleGoList = () => {
-    navigation.navigate('TodoList')
+    navigation.navigate('TodoList', { taskObject: {"id": 3, "taskName": task} })
   }
+
+  const tdcImage = '../../assets/logo-tdc.png';
 
   return (
     <View style={styles.container}>
-      <Text style={[styles.instructions, styles.fileName]}>Olá Todo App</Text>
-      <Button title='Go List' onPress={handleGoList} />
+      <View style={styles.containerTitle}>
+        <Text testID='titleHome' style={styles.title} testID='title'>TDC Tasks</Text>
+      </View>
+
+      <View style={styles.containerImg}>
+        <Image
+          style={styles.image}
+          source={require(tdcImage)}
+        />
+      </View>
+
+      <View style={styles.containerInput}>
+        <TextInput
+          style={styles.inputTask}
+          testID='inputTask'
+          placeholder="Preencha o nome da tarefa"
+          onChangeText={text => setTask(text)}
+        />
+      </View>
+
+      <View style={styles.containerButton}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleGoList}
+          testID='buttonAddtask'
+        >
+          <Text style={styles.textButton}>Adicionar tarefa</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
